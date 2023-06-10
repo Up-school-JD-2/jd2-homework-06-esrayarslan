@@ -10,6 +10,9 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
+
 public class ProductManager {
 
   private Map<String, Product> products;  // veritabanı
@@ -128,7 +131,9 @@ public class ProductManager {
     // örn:
     // category-1 105.2
     // category-2 45.0
+            //return products.values().stream()
+     //.collect(Collectors.groupingBy(Product::getCategory, Collectors.summingDouble(Product::getPrice)));
     return products.values().stream()
-            .collect(Collectors.groupingBy(Product::getCategory, Collectors.summingDouble(Product::getPrice)));
+            .collect(groupingBy(Product::getCategory, summingDouble(product -> product.getPrice() * product.getStock())));
   }
 }
